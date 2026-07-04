@@ -1,0 +1,21 @@
+name: blix
+
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    environment:
+      POSTGRES_USER: blix
+      POSTGRES_PASSWORD: blix
+      POSTGRES_DB: blix
+    ports:
+      - "5432:5432"
+    volumes:
+      - blix_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U blix"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  blix_pgdata:
