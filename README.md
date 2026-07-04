@@ -8,7 +8,7 @@ Our goal is to reduce uncertainty while commuting and help people make better tr
 
 ---
 
-Vision
+# Vision
 
 Public transportation should be as intelligent and effortless as using a ride-hailing app.
 
@@ -16,7 +16,7 @@ Blix aims to become the AI layer for public transport by providing commuters wit
 
 ---
 
-Current Development Scope
+# Current Development Scope
 
 The first version of Blix focuses on the Delhi Transport Ecosystem, including:
 
@@ -29,7 +29,7 @@ The platform is being designed so that additional cities and transport authoriti
 
 ---
 
-Core Features
+# Core Features
 
 Real-Time Bus Tracking
 
@@ -41,7 +41,7 @@ Real-Time Bus Tracking
 
 ---
 
-Smart Route Planning
+# Smart Route Planning
 
 Users can enter:
 
@@ -59,7 +59,7 @@ Blix will recommend:
 
 ---
 
-AI Travel Assistant
+# AI Travel Assistant
 
 Instead of only displaying data, Blix explains it.
 
@@ -75,7 +75,7 @@ The assistant provides natural-language recommendations based on available trans
 
 ---
 
-Nearby Bus Stops
+# Nearby Bus Stops
 
 Users can:
 
@@ -86,7 +86,7 @@ Users can:
 
 ---
 
-Bus Information
+# Bus Information
 
 For every supported bus:
 
@@ -99,7 +99,7 @@ For every supported bus:
 
 ---
 
-Live Arrival Estimates
+# Live Arrival Estimates
 
 Users can view:
 
@@ -110,7 +110,7 @@ Users can view:
 
 ---
 
-Personalized Experience
+# Personalized Experience
 
 Future personalization may include:
 
@@ -122,7 +122,7 @@ Future personalization may include:
 
 ---
 
-Design Principles
+# Design Principles
 
 Blix is built around five principles:
 
@@ -136,7 +136,7 @@ Every feature should reduce commuter effort rather than add complexity.
 
 ---
 
-Technology Goals
+# Technology Goals
 
 The platform is designed around:
 
@@ -151,7 +151,7 @@ The platform is designed around:
 
 ---
 
-Long-Term Roadmap
+# Long-Term Roadmap
 
 Planned future capabilities include:
 
@@ -168,7 +168,7 @@ Planned future capabilities include:
 
 ---
 
-Target Users
+# Target Users
 
 Blix is designed for:
 
@@ -181,7 +181,7 @@ Blix is designed for:
 
 ---
 
-Project Status
+# Project Status
 
 Current Phase: Active Development
 
@@ -189,12 +189,12 @@ The project is under continuous development. Features, architecture, and user ex
 
 ---
 
-Mission
+# Mission
 
 To make public transportation intelligent, reliable, and accessible through AI, helping millions of commuters travel with confidence.
 
 ---
 
-License
+# License
 
 No open-source license has been applied to this repository. All rights are reserved. The source code, assets, and documentation may not be copied, modified, or redistributed without explicit permission from the project owner.
