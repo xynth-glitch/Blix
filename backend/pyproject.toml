@@ -1,0 +1,58 @@
+[project]
+name = "blix"
+version = "0.1.0"
+description = "Blix — AI-powered public transport assistant (backend)"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.115,<1.0",
+    "uvicorn[standard]>=0.30,<1.0",
+    "pydantic>=2.7,<3.0",
+    "pydantic-settings>=2.3,<3.0",
+    "sqlalchemy>=2.0,<3.0",
+    "geoalchemy2>=0.15,<1.0",
+    "psycopg[binary]>=3.1,<4.0",
+    "httpx>=0.27,<1.0",
+    "gtfs-realtime-bindings>=1.0,<2.0",
+    "protobuf>=4.25,<6.0",
+    "structlog>=24.1,<25.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.2,<9.0",
+    "pytest-asyncio>=0.23,<1.0",
+    "ruff>=0.5,<1.0",
+    "mypy>=1.10,<2.0",
+    "types-protobuf>=4.25,<6.0",
+]
+
+[project.scripts]
+blix = "blix.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["blix*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "W"]
+ignore = ["B008"]  # FastAPI Depends() in defaults is idiomatic
+
+[tool.mypy]
+python_version = "3.11"
+warn_unused_ignores = true
+warn_redundant_casts = true
+ignore_missing_imports = true
+plugins = ["pydantic.mypy"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
