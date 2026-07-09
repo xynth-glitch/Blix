@@ -12,9 +12,10 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from blix import engine
+from blix import ai, engine
 from blix.db import get_session
 from blix.models import orm
+from blix.models.assistant import AssistantRequest, AssistantResponse
 from blix.models.canonical import (
     Fare,
     NearbyStop,
@@ -88,6 +89,14 @@ def get_fare(
     if fare is None:
         raise HTTPException(status_code=404, detail="No fare found for this pair")
     return fare
+
+
+@router.post("/assistant/chat", response_model=AssistantResponse, tags=["assistant"])
+async def assistant_chat(
+    request: AssistantRequest,
+    session: Session = Depends(get_session),
+) -> AssistantResponse:
+    return await ai.answer(session, request.message, request.location)
 
 
 @router.get("/feeds/status", tags=["system"])

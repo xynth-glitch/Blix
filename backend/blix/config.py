@@ -31,6 +31,11 @@ class Settings(BaseSettings):
     # A vehicle position older than this is considered STALE (not live).
     rt_stale_after_seconds: int = 60
 
+    # OpenAI assistant
+    openai_api_key: str | None = None
+    openai_model: str = "gpt-5.5"
+    openai_timeout_seconds: float = 20.0
+
     # Engine defaults
     nearby_default_radius_m: int = 500
     nearby_max_radius_m: int = 3000
