@@ -59,11 +59,41 @@ export interface RouteDetails {
   live_vehicles: VehiclePosition[];
 }
 
+export interface AssistantLocation {
+  lat: number;
+  lon: number;
+}
+
+export interface AssistantResponse {
+  answer: string;
+  context: {
+    routes: Route[];
+    route_details: RouteDetails[];
+    nearby_stops: NearbyStop[];
+    arrivals: Record<string, StopArrival[]>;
+    used_openai: boolean;
+  };
+}
+
 const API_BASE =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000";
 
 async function get<T>(path: string): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, { cache: "no-store" });
+  if (!res.ok) {
+    const detail = await res.text();
+    throw new Error(`API ${res.status}: ${detail}`);
+  }
+  return (await res.json()) as T;
+}
+
+async function post<T>(path: string, body: unknown): Promise<T> {
+  const res = await fetch(`${API_BASE}${path}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+    cache: "no-store",
+  });
   if (!res.ok) {
     const detail = await res.text();
     throw new Error(`API ${res.status}: ${detail}`);
@@ -82,4 +112,6 @@ export const api = {
     get<Route[]>(`/api/routes/search?q=${encodeURIComponent(q)}`),
   routeDetails: (routeId: string) =>
     get<RouteDetails>(`/api/routes/${encodeURIComponent(routeId)}`),
+  chat: (message: string, location?: AssistantLocation | null) =>
+    post<AssistantResponse>("/api/assistant/chat", { message, location }),
 };

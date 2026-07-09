@@ -11,6 +11,9 @@ export default function Home() {
   const [nearby, setNearby] = useState<NearbyStop[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [chatMessage, setChatMessage] = useState("");
+  const [chatAnswer, setChatAnswer] = useState<string | null>(null);
+  const [chatLoading, setChatLoading] = useState(false);
 
   async function onSearch() {
     if (!query.trim()) return;
@@ -35,6 +38,46 @@ export default function Home() {
       setError(e instanceof Error ? e.message : "Failed to load route");
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function askAssistant() {
+    if (!chatMessage.trim()) return;
+    setError(null);
+    setChatAnswer(null);
+    setChatLoading(true);
+
+    const send = async (location?: { lat: number; lon: number } | null) => {
+      const response = await api.chat(chatMessage.trim(), location);
+      setChatAnswer(response.answer);
+    };
+
+    try {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            send({ lat: pos.coords.latitude, lon: pos.coords.longitude })
+              .catch((e) =>
+                setError(e instanceof Error ? e.message : "Assistant failed")
+              )
+              .finally(() => setChatLoading(false));
+          },
+          () => {
+            send(null)
+              .catch((e) =>
+                setError(e instanceof Error ? e.message : "Assistant failed")
+              )
+              .finally(() => setChatLoading(false));
+          },
+          { maximumAge: 60_000, timeout: 4000 }
+        );
+        return;
+      }
+      await send(null);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Assistant failed");
+    } finally {
+      if (!navigator.geolocation) setChatLoading(false);
     }
   }
 
@@ -63,6 +106,22 @@ export default function Home() {
       <div className="brand">Blix</div>
       <div className="tagline">Think about your destination — not bus routes.</div>
 
+      <div className="section-title">AI travel assistant</div>
+      <div className="search">
+        <input
+          className="input"
+          placeholder="Ask: Where is bus 764? Which bus should I take?"
+          value={chatMessage}
+          onChange={(e) => setChatMessage(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && askAssistant()}
+        />
+        <button className="btn" onClick={askAssistant} disabled={chatLoading}>
+          {chatLoading ? "Thinking…" : "Ask AI"}
+        </button>
+      </div>
+      {chatAnswer && <div className="card"><div className="secondary">{chatAnswer}</div></div>}
+
+      <div className="section-title">Route lookup</div>
       <div className="search">
         <input
           className="input"
